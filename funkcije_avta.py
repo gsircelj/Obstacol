@@ -9,6 +9,7 @@ import cv2
 import numpy as np
 import os
 import tempfile
+import time
 import PSpincalc as sp
 
 # connect to the AirSim simulator
@@ -44,7 +45,6 @@ def getImages(idx):
     for response_idx, response in enumerate(responses):
         filename = os.path.join(tmp_dir, f"{idx}_{response.image_type}_{response_idx}")
 	
-	
         if response.pixels_as_float:
             print("Type %d, size %d" % (response.image_type, len(response.image_data_float)))
             airsim.write_pfm(os.path.normpath(filename + '.pfm'), airsim.get_pfm_array(response))
@@ -56,14 +56,13 @@ def getImages(idx):
             img1d = np.fromstring(response.image_data_uint8, dtype=np.uint8) # get numpy array
             img_rgb = img1d.reshape(response.height, response.width, 3) # reshape array to 3 channel image array H X W X 3
             cv2.imwrite(os.path.normpath(filename + '.png'), img_rgb) # write to png
-       
 
 #ustvari se mi quaterion objekt, ki pa ga nato s klicem funkcije to string spremenim v string, ter returnam ta string       
 def getOrientation():
     car_state = client.getCarState()
     return toStringOrientation(car_state.kinematics_estimated.orientation)
     
-#spremeni moj quaterion??? v string kjer razËlenim podatke ter jih vrnem v string
+#spremeni moj quaterion??? v string kjer razƒçlenim podatke ter jih vrnem v string
 def toStringOrientation(temp):
     #moj quaterion sprenim v numpy array, ki ga nato s pomocjo funkcije pretvorim v eulerjeve enote
     quaternion = np.array([temp.w_val, temp.x_val, temp.y_val, temp.z_val])
@@ -96,3 +95,14 @@ def toStringCollision(temp):
         strRezultat = strRezultat + "\nZaleteli smo se v " + str(temp.object_name) + " s id-jem '" + str(temp.object_id) + "'\nKako dalec smo prodrli v objekt: " + str(abs(temp.penetration_depth))
         strRezultat = strRezultat + "\nCas karambola: " + str(temp.time_stamp)
     return strRezultat
+
+def reset():
+    client.reset()
+    print("Reset")
+
+def brake():
+    car_controls.brake = 1
+    client.setCarControls(car_controls)
+    print("Apply brakes")
+    time.sleep(3)   # let car drive a bit
+    car_controls.brake = 0 #remove brake
