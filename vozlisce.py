@@ -16,10 +16,21 @@ pogoj = True
 while pogoj:
     car_speed = funkcije_avta.getSpeed()
     car_gear = funkcije_avta.getGear()
+    car_position = funkcije_avta.getPosition()
+    car_orientation = funkcije_avta.getOrientation()
+    car_collision = funkcije_avta.getCollision()
 
     f.write("hitrost: %d, prestava: %d\n" % (car_speed, car_gear))
+    f.write(car_position)
+    f.write(car_orientation)
+    f.write(car_collision)
+    
     print("hitrost: %d, prestava: %d" % (car_speed, car_gear))
-
+    print(car_orientation)
+    print(car_position)
+    
+    
+    print(car_collision)
     # trenutno se shranita slika scene in globinska slika
     funkcije_avta.getImages(idx)
     
