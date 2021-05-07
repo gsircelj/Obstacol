@@ -79,3 +79,20 @@ def getPosition():
 #Vector3r mi pretvori v string
 def toStringPosition(temp):
     return "Polozaj avta:\n" "x: " + str(temp.x_val) + "\ny: " + str(temp.y_val) + "\nz: " + str(temp.z_val)
+
+#dobimo object collision info, ki ga nato s pomocje funkcije tostring damo v string xD pa nato returnamo ta formatiran string
+def getCollision():
+    collision_info = client.simGetCollisionInfo()
+    return toStringCollision(collision_info)
+    
+    
+#tukaj glede na razlice parametre collision infa tvorimo razlicne string npr ce smo se ze zaleteli ali se ne
+def toStringCollision(temp):
+    strRezultat = "Ali smo ze imeli karambol: "
+    if temp.has_collided == 0:
+        strRezultat = strRezultat + "ne :)"
+    elif temp.has_collided ==  1:
+        strRezultat = strRezultat + "da :(" + "\nLokacija karambola:" + "\nx: " + str(temp.impact_point.x_val) + "\ny: " + str(temp.impact_point.y_val) + "\nz: " + str(temp.impact_point.z_val)
+        strRezultat = strRezultat + "\nZaleteli smo se v " + str(temp.object_name) + " s id-jem '" + str(temp.object_id) + "'\nKako dalec smo prodrli v objekt: " + str(abs(temp.penetration_depth))
+        strRezultat = strRezultat + "\nCas karambola: " + str(temp.time_stamp)
+    return strRezultat
