@@ -10,6 +10,7 @@ import numpy as np
 import os
 import tempfile
 
+#ayyyyyyyyyyy
 # connect to the AirSim simulator
 client = airsim.CarClient()
 client.confirmConnection()
@@ -55,3 +56,7 @@ def getImages(idx):
             img1d = np.fromstring(response.image_data_uint8, dtype=np.uint8) # get numpy array
             img_rgb = img1d.reshape(response.height, response.width, 3) # reshape array to 3 channel image array H X W X 3
             cv2.imwrite(os.path.normpath(filename + '.png'), img_rgb) # write to png
+            
+def getPosition():
+    car_state = client.getCarState()
+    return car_state.kinematics_estimated.orientation
