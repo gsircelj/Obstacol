@@ -9,8 +9,8 @@ import cv2
 import numpy as np
 import os
 import tempfile
+import PSpincalc as sp
 
-#ayyyyyyyyyyy
 # connect to the AirSim simulator
 client = airsim.CarClient()
 client.confirmConnection()
@@ -56,7 +56,26 @@ def getImages(idx):
             img1d = np.fromstring(response.image_data_uint8, dtype=np.uint8) # get numpy array
             img_rgb = img1d.reshape(response.height, response.width, 3) # reshape array to 3 channel image array H X W X 3
             cv2.imwrite(os.path.normpath(filename + '.png'), img_rgb) # write to png
-            
+       
+
+#ustvari se mi quaterion objekt, ki pa ga nato s klicem funkcije to string spremenim v string, ter returnam ta string       
+def getOrientation():
+    car_state = client.getCarState()
+    return toStringOrientation(car_state.kinematics_estimated.orientation)
+    
+#spremeni moj quaterion??? v string kjer razčlenim podatke ter jih vrnem v string
+def toStringOrientation(temp):
+    #moj quaterion sprenim v numpy array, ki ga nato s pomocjo funkcije pretvorim v eulerjeve enote
+    quaternion = np.array([temp.w_val, temp.x_val, temp.y_val, temp.z_val])
+    yo = sp.Q2EA(quaternion, EulerOrder="zyx", ignoreAllChk=True)[0]
+    #spodaj si nastavim string, kjer predstavim eulerjeve enote
+    return "Orientacija avta:\n" + "x: " + str(yo[0]) + "\ny: " + str(yo[1]) + "\nz: " + str(yo[2])
+    
+#returna polozaj v obliki stringa drugace je prej klicom funkcije spodnje to Vector3r oblika
 def getPosition():
     car_state = client.getCarState()
-    return car_state.kinematics_estimated.orientation
+    return toStringPosition(car_state.kinematics_estimated.position)
+
+#Vector3r mi pretvori v string
+def toStringPosition(temp):
+    return "Polozaj avta:\n" "x: " + str(temp.x_val) + "\ny: " + str(temp.y_val) + "\nz: " + str(temp.z_val)
