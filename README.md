@@ -28,7 +28,7 @@
 
 ## Demonstration
 ### Driving on a road
-https://user-images.githubusercontent.com/53914521/184170454-944e156f-c8c8-45ae-87a1-300cecebe720.mp4
+![road_driving3](https://user-images.githubusercontent.com/53914521/185399705-b6c83212-ae68-405f-9fff-d4f7001cbb1a.gif)
 
 ### Following a target
-https://user-images.githubusercontent.com/53914521/184171900-bb3bd311-4387-4b2e-ace1-42cdf49f840b.mp4
+![following_target_gif2](https://user-images.githubusercontent.com/53914521/185399758-31fda6d0-9ae8-47b0-b5cd-45458e104066.gif)
