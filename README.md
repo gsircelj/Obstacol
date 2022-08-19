@@ -5,7 +5,7 @@
   <br>
 </h1>
 
-<h4 align="center">An autonomous vehicle</h4>
+<h2 align="center">An autonomous vehicle</h2>
 
 <p align="center">
   <a href="#key-features">Key Features</a> •
